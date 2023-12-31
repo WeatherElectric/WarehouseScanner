@@ -1,4 +1,6 @@
-﻿namespace WarehouseScanner.Menu;
+﻿using WarehouseScanner.Scripts;
+
+namespace WarehouseScanner.Menu;
 
 internal static class BoneMenu
 {
@@ -6,7 +8,7 @@ internal static class BoneMenu
     public static void Setup()
     {
         MenuCategory mainCat = MenuManager.CreateCategory("Weather Electric", "#6FBDFF");
-        MenuCategory subCat = mainCat.CreateCategory("Warehouse Scanner", Color.red);
+        MenuCategory subCat = mainCat.CreateCategory("Warehouse Scanner", Color.magenta);
         subCat.CreateFunctionElement("Spawn", Color.green, Spawn);
         subCat.CreateFunctionElement("Despawn", Color.red, Despawn);
     }
@@ -14,14 +16,16 @@ internal static class BoneMenu
     private static void Spawn()
     {
         if (IsSpawned) return;
-        // Fill these out when bundle's set up
+        var location = Player.playerHead.forward * 2f;
+        Object.Instantiate(Assets.Scanner, location, Quaternion.identity);
         IsSpawned = true;
     }
     
     private static void Despawn()
     {
         if (!IsSpawned) return;
-        // Fill these out when bundle's set up
+        // IM SO SMART I KNEW THE INSTANCE WOULD BE USEFUL
+        Object.Destroy(Scanner.Instance.gameObject);
         IsSpawned = false;
     }
 }
