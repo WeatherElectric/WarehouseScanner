@@ -4,6 +4,11 @@
 public class Scanner : MonoBehaviour
 {
     public static Scanner Instance { get; private set; }
+
+    internal static void PostDestroy()
+    {
+        Instance = null;
+    }
     
     private Transform _firePoint;
     private AudioSource _successSound;

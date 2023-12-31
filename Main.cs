@@ -25,6 +25,8 @@ public class Main : MelonMod
     
     private static void OnLevelUnload()
     {
+        // in case OnDestroy doesn't get called by unloading a scene
+        Scanner.PostDestroy();
         BoneMenu.IsSpawned = false;
     }
 }
