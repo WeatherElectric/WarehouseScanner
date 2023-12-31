@@ -27,6 +27,8 @@ public class Scanner : MonoBehaviour
     public void Scan()
     {
         Physics.Raycast(_firePoint.position, _firePoint.forward, out var hit, 100f);
+        // can raycasts just drown already?
+        if (hit.rigidbody == null) return;
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null) return;
