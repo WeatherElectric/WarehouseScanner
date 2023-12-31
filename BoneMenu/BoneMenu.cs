@@ -1,6 +1,4 @@
-﻿using WarehouseScanner.Scripts;
-
-namespace WarehouseScanner.Menu;
+﻿namespace WarehouseScanner.Menu;
 
 internal static class BoneMenu
 {

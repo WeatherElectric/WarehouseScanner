@@ -11,6 +11,7 @@ internal static class Assets
     {
         _bundle = HelperMethods.LoadEmbeddedAssetBundle(Main.CurrAsm, HelperMethods.IsAndroid() ? "WarehouseScanner.Resources.Android.bundle" : "WarehouseScanner.Resources.Windows.bundle");
         // i didn't feel like naming the prefab something normal
+        // god i love rebuilding the bundle every time i make a little mistake
         Scanner = _bundle.LoadPersistentAsset<GameObject>("Assets/Dickweed.prefab");
     }
 }

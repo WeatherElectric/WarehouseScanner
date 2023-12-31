@@ -1,5 +1,4 @@
-﻿
-namespace WarehouseScanner.Scripts;
+﻿namespace WarehouseScanner.Scripts;
 
 [RegisterTypeInIl2Cpp]
 public class Scanner : MonoBehaviour
@@ -7,6 +6,8 @@ public class Scanner : MonoBehaviour
     public static Scanner Instance { get; private set; }
     
     private Transform _firePoint;
+    private AudioSource _successSound;
+    private ImpactSFX _impactSfx;
     private TextMeshPro _titleText;
     private TextMeshPro _barcodeText;
 
@@ -22,6 +23,11 @@ public class Scanner : MonoBehaviour
         _firePoint = transform.Find("FirePoint");
         _titleText = transform.Find("Text/Title").GetComponent<TextMeshPro>();
         _barcodeText = transform.Find("Text/Barcode").GetComponent<TextMeshPro>();
+        _successSound = transform.GetComponent<AudioSource>();
+        // since this is a code mod I can put the game's mixers YEAA FUCK YOU SDK MODDERS I GET TO DO THIS!
+        _successSound.outputAudioMixerGroup = Audio.SFXMixer;
+        _impactSfx = transform.Find("ImpactSFX").GetComponent<ImpactSFX>();
+        _impactSfx.outputMixer = Audio.SFXMixer;
     }
 
     public void Scan()
@@ -29,6 +35,7 @@ public class Scanner : MonoBehaviour
         Physics.Raycast(_firePoint.position, _firePoint.forward, out var hit, 100f);
         // can raycasts just drown already?
         if (hit.rigidbody == null) return;
+        _successSound.Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null) return;

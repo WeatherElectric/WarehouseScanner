@@ -1,12 +1,15 @@
 global using System;
+global using System.Reflection;
 global using BoneLib;
 global using MelonLoader;
 global using WarehouseScanner.Melon;
 global using BoneLib.BoneMenu;
 global using BoneLib.BoneMenu.Elements;
 global using SLZ.Marrow.Pool;
+global using SLZ.SFX;
 global using UnityEngine;
 global using WarehouseScanner.Menu;
 global using TMPro;
 global using WarehouseScanner.Resources;
+global using WarehouseScanner.Scripts;
 global using Object = UnityEngine.Object;
