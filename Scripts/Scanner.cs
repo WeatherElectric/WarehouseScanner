@@ -28,11 +28,8 @@ public class Scanner : MonoBehaviour
     {
         Physics.Raycast(_firePoint.position, _firePoint.forward, out var hit, 100f);
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
-        // what if you hit the part of a spawnable without a rigidbody? check if poolee's null if you did hit a RBless part
-        if (poolee == null)
-        {
-            poolee = hit.transform.GetComponentInParent<AssetPoolee>();
-        }
+        // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
+        if (poolee == null) return;
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
         _titleText.text = title;

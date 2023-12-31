@@ -16,7 +16,7 @@ internal static class BoneMenu
     private static void Spawn()
     {
         if (IsSpawned) return;
-        var location = Player.playerHead.forward * 2f;
+        var location = Player.playerHead.position + Player.playerHead.forward * 2f;
         Object.Instantiate(Assets.Scanner, location, Quaternion.identity);
         IsSpawned = true;
     }
