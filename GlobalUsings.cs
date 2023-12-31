@@ -1,0 +1,10 @@
+global using System;
+global using System.IO;
+global using BoneLib;
+global using MelonLoader;
+global using WarehouseScanner.Melon;
+global using BoneLib.BoneMenu;
+global using BoneLib.BoneMenu.Elements;
+global using SLZ.Marrow.Pool;
+global using UnityEngine;
+global using WarehouseScanner.Menu;
