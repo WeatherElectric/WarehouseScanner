@@ -1,12 +1,11 @@
 ﻿// ReSharper disable UnassignedField.Global, they're serialized you dingus.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-
+// ReSharper disable PossibleNullReferenceException, they're serialized you dingus.
 namespace WarehouseScanner.Scripts;
 
 [RegisterTypeInIl2Cpp]
 public class Scanner : MonoBehaviour
 {
-    public static Scanner? Instance { get; private set; }
+    public static Scanner Instance { get; private set; }
 
     internal static void PostDestroy()
     {
@@ -16,6 +15,8 @@ public class Scanner : MonoBehaviour
     public Il2CppReferenceField<Transform> FirePoint;
     public Il2CppReferenceField<AudioSource> SuccessSound;
     public Il2CppReferenceField<ImpactSFX> ImpactSfx;
+    public Il2CppReferenceField<GameObject> TitleText;
+    public Il2CppReferenceField<GameObject> BarcodeText;
     private TextMeshPro _titleText;
     private TextMeshPro _barcodeText;
 
@@ -29,9 +30,9 @@ public class Scanner : MonoBehaviour
         // since this is a code mod I can put the game's mixers YEAA FUCK YOU SDK MODDERS I GET TO DO THIS!
         SuccessSound.Get().outputAudioMixerGroup = Audio.SFXMixer;
         ImpactSfx.Get().outputMixer = Audio.SFXMixer;
-        // cant reference TMPro with Il2Cpp, damn.
-        _titleText = transform.Find("Text/Title").GetComponent<TextMeshPro>();
-        _barcodeText = transform.Find("Text/Barcode").GetComponent<TextMeshPro>();
+        // textmeshpro doesn't inherit from il2cppobject, so i have to find it from serialized gameobjects.
+        _titleText = TitleText.Get().GetComponent<TextMeshPro>();
+        _barcodeText = BarcodeText.Get().GetComponent<TextMeshPro>();
     }
 
     public void Scan()

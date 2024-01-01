@@ -1,6 +1,4 @@
-﻿using Il2Cpp;
-
-namespace WarehouseScanner;
+﻿namespace WarehouseScanner;
 
 public class Main : MelonMod
 {

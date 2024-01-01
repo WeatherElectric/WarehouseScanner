@@ -12,7 +12,7 @@ internal static class Preferences
     {
         LoggingMode = GlobalCategory.GetEntry<int>("LoggingMode") ?? GlobalCategory.CreateEntry("LoggingMode", 0,
             "Logging Mode", "The level of logging to use. 0 = Important Only, 1 = All");
-        GlobalCategory.SetFilePath(MelonUtils.UserDataDirectory + "/WeatherElectric.cfg");
+        GlobalCategory.SetFilePath(MelonEnvironment.UserDataDirectory + "/WeatherElectric.cfg");
         GlobalCategory.SaveToFile(false);
         ModConsole.Msg("Finished preferences setup for WarehouseScanner", 1);
     }

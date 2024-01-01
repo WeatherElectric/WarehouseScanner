@@ -13,5 +13,5 @@ global using Il2CppTMPro;
 global using WarehouseScanner.Resources;
 global using WarehouseScanner.Scripts;
 global using Object = UnityEngine.Object;
-global using Il2CppInterop.Runtime;
 global using Il2CppInterop.Runtime.InteropTypes.Fields;
+global using MelonLoader.Utils;
