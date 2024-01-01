@@ -43,6 +43,27 @@ public class Scanner : MonoBehaviour
         _successSound.Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
+        if (poolee == null)
+        {
+            // Do an additional check as it may be an NPC where the poolee isn't on a rigidbody.
+            ScanNPC(hit);
+            return;
+        }
+        var barcode = poolee.spawnableCrate.Barcode;
+        var title = poolee.spawnableCrate.Title;
+        _titleText.text = title;
+        _barcodeText.text = barcode;
+        // i mean I can use a coroutine, buut i dont wanna make jevilib a dependency
+        // hey look at me actually using comments, i never do this
+        // cancel any previous invokes to prevent the text from disappearing too early
+        CancelInvoke(nameof(HideText));
+        Invoke(nameof(HideText), 2f);
+        ModConsole.Msg($"{poolee.gameObject.name}'s barcode: {barcode}, title: {title}");
+    }
+
+    private void ScanNPC(RaycastHit hit)
+    {
+        var poolee = hit.rigidbody.gameObject.GetComponentInParent<AssetPoolee>();
         if (poolee == null) return;
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
@@ -50,6 +71,8 @@ public class Scanner : MonoBehaviour
         _barcodeText.text = barcode;
         // i mean I can use a coroutine, buut i dont wanna make jevilib a dependency
         // hey look at me actually using comments, i never do this
+        // cancel any previous invokes to prevent the text from disappearing too early
+        CancelInvoke(nameof(HideText));
         Invoke(nameof(HideText), 2f);
         ModConsole.Msg($"{poolee.gameObject.name}'s barcode: {barcode}, title: {title}");
     }
