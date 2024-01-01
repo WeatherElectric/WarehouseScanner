@@ -1,12 +1,4 @@
-﻿[assembly: AssemblyTitle(WarehouseScanner.Main.Description)]
-[assembly: AssemblyDescription(WarehouseScanner.Main.Description)]
-[assembly: AssemblyCompany(WarehouseScanner.Main.Company)]
-[assembly: AssemblyProduct(WarehouseScanner.Main.Name)]
-[assembly: AssemblyCopyright("Developed by " + WarehouseScanner.Main.Author)]
-[assembly: AssemblyTrademark(WarehouseScanner.Main.Company)]
-[assembly: AssemblyVersion(WarehouseScanner.Main.Version)]
-[assembly: AssemblyFileVersion(WarehouseScanner.Main.Version)]
-[assembly:
+﻿[assembly:
     MelonInfo(typeof(WarehouseScanner.Main), WarehouseScanner.Main.Name, WarehouseScanner.Main.Version,
         WarehouseScanner.Main.Author, WarehouseScanner.Main.DownloadLink)]
 [assembly: MelonColor(ConsoleColor.Magenta)]

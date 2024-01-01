@@ -3,18 +3,18 @@
 [RegisterTypeInIl2Cpp]
 public class Scanner : MonoBehaviour
 {
-    public static Scanner Instance { get; private set; }
+    public static Scanner? Instance { get; private set; }
 
     internal static void PostDestroy()
     {
         Instance = null;
     }
     
-    private Transform _firePoint;
-    private AudioSource _successSound;
-    private ImpactSFX _impactSfx;
-    private TextMeshPro _titleText;
-    private TextMeshPro _barcodeText;
+    public Transform firePoint;
+    public AudioSource successSound;
+    public ImpactSFX impactSfx;
+    public TextMeshPro TitleText;
+    public TextMeshPro BarcodeText;
 
     private void Awake()
     {
@@ -23,31 +23,24 @@ public class Scanner : MonoBehaviour
     
     private void Start()
     {
-        // PLEASE CAN WE JUST MOVE ON TO ML 0.6 FOR BUILT-IN FIELDINJECTION
-        // ALTERNATIVELY, CAM PLEASE GIVE ME THE MONO BUILD
-        _firePoint = transform.Find("FirePoint");
-        _titleText = transform.Find("Text/Title").GetComponent<TextMeshPro>();
-        _barcodeText = transform.Find("Text/Barcode").GetComponent<TextMeshPro>();
-        _successSound = transform.GetComponent<AudioSource>();
         // since this is a code mod I can put the game's mixers YEAA FUCK YOU SDK MODDERS I GET TO DO THIS!
-        _successSound.outputAudioMixerGroup = Audio.SFXMixer;
-        _impactSfx = transform.Find("ImpactSFX").GetComponent<ImpactSFX>();
-        _impactSfx.outputMixer = Audio.SFXMixer;
+        successSound.outputAudioMixerGroup = Audio.SFXMixer;
+        impactSfx.outputMixer = Audio.SFXMixer;
     }
 
     public void Scan()
     {
-        Physics.Raycast(_firePoint.position, _firePoint.forward, out var hit, 100f);
+        Physics.Raycast(firePoint.position, firePoint.forward, out var hit, 100f);
         // can raycasts just drown already?
         if (hit.rigidbody == null) return;
-        _successSound.Play();
+        successSound.Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null) return;
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
-        _titleText.text = title;
-        _barcodeText.text = barcode;
+        TitleText.text = title;
+        BarcodeText.text = barcode;
         // i mean I can use a coroutine, buut i dont wanna make jevilib a dependency
         // hey look at me actually using comments, i never do this
         Invoke(nameof(HideText), 2f);
@@ -57,8 +50,8 @@ public class Scanner : MonoBehaviour
     private void HideText()
     {
         // NO! GO AWAY TEXT! FUCK YOU!
-        _titleText.text = "";
-        _barcodeText.text = "";
+        TitleText.text = "";
+        BarcodeText.text = "";
     }
     
     private void OnDestroy()
