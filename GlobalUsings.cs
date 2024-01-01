@@ -9,7 +9,7 @@ global using SLZ.Marrow.Pool;
 global using SLZ.SFX;
 global using UnityEngine;
 global using WarehouseScanner.Menu;
-global using TMPro;
 global using WarehouseScanner.Resources;
 global using WarehouseScanner.Scripts;
 global using Object = UnityEngine.Object;
+global using TMPro;
