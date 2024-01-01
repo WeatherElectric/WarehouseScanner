@@ -12,11 +12,13 @@ public class Scanner : MonoBehaviour
         Instance = null;
     }
     
+    // I FUCKIN LOVE BUILT IN FIELDINJECTION!
     public Il2CppReferenceField<Transform> FirePoint;
     public Il2CppReferenceField<AudioSource> SuccessSound;
     public Il2CppReferenceField<ImpactSFX> ImpactSfx;
     public Il2CppReferenceField<GameObject> TitleText;
     public Il2CppReferenceField<GameObject> BarcodeText;
+    // EXCEPT THAT ITS MADE BY THE BEPIN LOSERS, GODDAMMIT
     private TextMeshPro _titleText;
     private TextMeshPro _barcodeText;
 
