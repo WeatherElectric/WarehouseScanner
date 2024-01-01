@@ -1,4 +1,6 @@
-﻿namespace WarehouseScanner.Scripts;
+﻿using Il2CppInterop.Runtime.InteropTypes.Fields;
+
+namespace WarehouseScanner.Scripts;
 
 [RegisterTypeInIl2Cpp]
 public class Scanner : MonoBehaviour
@@ -10,11 +12,11 @@ public class Scanner : MonoBehaviour
         Instance = null;
     }
     
-    public Transform firePoint;
-    public AudioSource successSound;
-    public ImpactSFX impactSfx;
-    public TextMeshPro TitleText;
-    public TextMeshPro BarcodeText;
+    public Il2CppReferenceField<Transform> FirePoint;
+    public Il2CppReferenceField<AudioSource> SuccessSound;
+    public Il2CppReferenceField<ImpactSFX> ImpactSfx;
+    private TextMeshPro _titleText;
+    private TextMeshPro _barcodeText;
 
     private void Awake()
     {
@@ -24,23 +26,26 @@ public class Scanner : MonoBehaviour
     private void Start()
     {
         // since this is a code mod I can put the game's mixers YEAA FUCK YOU SDK MODDERS I GET TO DO THIS!
-        successSound.outputAudioMixerGroup = Audio.SFXMixer;
-        impactSfx.outputMixer = Audio.SFXMixer;
+        SuccessSound.Get().outputAudioMixerGroup = Audio.SFXMixer;
+        ImpactSfx.Get().outputMixer = Audio.SFXMixer;
+        // cant reference TMPro with Il2Cpp, damn.
+        _titleText = transform.Find("Text/Title").GetComponent<TextMeshPro>();
+        _barcodeText = transform.Find("Text/Barcode").GetComponent<TextMeshPro>();
     }
 
     public void Scan()
     {
-        Physics.Raycast(firePoint.position, firePoint.forward, out var hit, 100f);
+        Physics.Raycast(FirePoint.Get().position, FirePoint.Get().forward, out var hit, 100f);
         // can raycasts just drown already?
         if (hit.rigidbody == null) return;
-        successSound.Play();
+        SuccessSound.Get().Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null) return;
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
-        TitleText.text = title;
-        BarcodeText.text = barcode;
+        _titleText.text = title;
+        _barcodeText.text = barcode;
         // i mean I can use a coroutine, buut i dont wanna make jevilib a dependency
         // hey look at me actually using comments, i never do this
         Invoke(nameof(HideText), 2f);
@@ -50,8 +55,8 @@ public class Scanner : MonoBehaviour
     private void HideText()
     {
         // NO! GO AWAY TEXT! FUCK YOU!
-        TitleText.text = "";
-        BarcodeText.text = "";
+        _titleText.text = "";
+        _barcodeText.text = "";
     }
     
     private void OnDestroy()
