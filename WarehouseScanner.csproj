@@ -21,6 +21,7 @@
       <None Remove="Resources\Android.bundle" />
       <EmbeddedResource Include="Resources\Android.bundle" />
       <EmbeddedResource Include="Resources\Windows.bundle" />
+      <None Remove="WarehouseScanner.sln.DotSettings" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Il2CppInterop.Runtime.InteropTypes.Fields;
+﻿// ReSharper disable UnassignedField.Global, they're serialized you dingus.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 namespace WarehouseScanner.Scripts;
 
@@ -35,10 +36,12 @@ public class Scanner : MonoBehaviour
 
     public void Scan()
     {
-        Physics.Raycast(FirePoint.Get().position, FirePoint.Get().forward, out var hit, 100f);
+        var firepoint = FirePoint.Get();
+        var successsound = SuccessSound.Get();
+        Physics.Raycast(firepoint.position, firepoint.forward, out var hit, 100f);
         // can raycasts just drown already?
         if (hit.rigidbody == null) return;
-        SuccessSound.Get().Play();
+        successsound.Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null) return;
