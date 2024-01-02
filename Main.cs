@@ -6,7 +6,7 @@ public class Main : MelonMod
     internal const string Description = "Scan crates, get barcodes.";
     internal const string Author = "SoulWithMae";
     internal const string Company = "Weather Electric";
-    internal const string Version = "1.1.0";
+    internal const string Version = "1.2.0";
     internal const string DownloadLink = "https://bonelab.thunderstore.io/package/SoulWithMae/WarehouseScanner/";
     
     internal static Assembly CurrAsm => Assembly.GetExecutingAssembly();
