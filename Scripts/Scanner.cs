@@ -1,4 +1,7 @@
-﻿namespace WarehouseScanner.Scripts;
+﻿using SLZ.Marrow.SceneStreaming;
+using SLZ.Rig;
+
+namespace WarehouseScanner.Scripts;
 
 [RegisterTypeInIl2Cpp]
 public class Scanner : MonoBehaviour
@@ -40,7 +43,6 @@ public class Scanner : MonoBehaviour
         Physics.Raycast(_firePoint.position, _firePoint.forward, out var hit, 100f);
         // can raycasts just drown already?
         if (hit.rigidbody == null) return;
-        _successSound.Play();
         var poolee = hit.rigidbody.gameObject.GetComponent<AssetPoolee>();
         // there used to be a dumb check here, it's dumb, I killed it, he wasn't a good employee anyways
         if (poolee == null)
@@ -49,6 +51,7 @@ public class Scanner : MonoBehaviour
             ScanNPC(hit);
             return;
         }
+        _successSound.Play();
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
         _titleText.text = title;
@@ -61,20 +64,49 @@ public class Scanner : MonoBehaviour
         ModConsole.Msg($"{poolee.gameObject.name}'s barcode: {barcode}, title: {title}");
     }
 
+    public void ScanMap()
+    {
+        var map = SceneStreamer.Session.Level;
+        if (map == null) return;
+        _successSound.Play();
+        var barcode = map.Barcode;
+        var title = map.Title;
+        _titleText.text = title;
+        _barcodeText.text = barcode;
+        CancelInvoke(nameof(HideText));
+        Invoke(nameof(HideText), 2f);
+        ModConsole.Msg($"Map barcode: {barcode}, title: {title}");
+    }
+
     private void ScanNPC(RaycastHit hit)
     {
         var poolee = hit.rigidbody.gameObject.GetComponentInParent<AssetPoolee>();
-        if (poolee == null) return;
+        if (poolee == null)
+        {
+            ScanAvatar(hit);
+            return;
+        }
         var barcode = poolee.spawnableCrate.Barcode;
         var title = poolee.spawnableCrate.Title;
         _titleText.text = title;
         _barcodeText.text = barcode;
-        // i mean I can use a coroutine, buut i dont wanna make jevilib a dependency
-        // hey look at me actually using comments, i never do this
-        // cancel any previous invokes to prevent the text from disappearing too early
         CancelInvoke(nameof(HideText));
         Invoke(nameof(HideText), 2f);
         ModConsole.Msg($"{poolee.gameObject.name}'s barcode: {barcode}, title: {title}");
+    }
+
+    private void ScanAvatar(RaycastHit hit)
+    {
+        var rm = hit.rigidbody.gameObject.GetComponentInParent<RigManager>();
+        if (rm == null) return;
+        _successSound.Play();
+        var barcode = rm.AvatarCrate.Crate.Barcode;
+        var title = rm.AvatarCrate.Crate.Title;
+        _titleText.text = title;
+        _barcodeText.text = barcode;
+        CancelInvoke(nameof(HideText));
+        Invoke(nameof(HideText), 2f);
+        ModConsole.Msg($"Avatar's barcode: {barcode}, title: {title}");
     }
 
     private void HideText()
